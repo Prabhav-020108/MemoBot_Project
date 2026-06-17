@@ -1,3 +1,4 @@
 pizza|* pizza *|Pizza sounds delicious! What is your favourite topping ?
 tomato|* tomato *|Classic! You can't go wrong with a traditional Margherita style.
 hey|* hey *|Hello! What is on your mind?
+burger|* burger *|OHH Great choice!
