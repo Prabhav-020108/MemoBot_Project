@@ -92,6 +92,7 @@ void trim(char *str);
 void toLowerCase(char *str);
 void removePunctuation(char *str);
 void preprocess(char *str);
+void normalizeCommand(char *str);
 
 int isCommand(const char *input);
 int handleCommand(const char *input);
@@ -314,9 +315,16 @@ void addBuiltInRules(void) {
     };
     addRule("feel", "i feel *", r2, 3, 0);
 
+    char rFeeling[MAX_RESPONSES][MAX_RESPONSE] = {
+        "Why do you feel %1?",
+        "How long have you been feeling %1?",
+        "What do you think is making you feel %1?"
+    };
+    addRule("feeling", "i am feeling *", rFeeling, 3, 0);
+
     char r3[MAX_RESPONSES][MAX_RESPONSE] = {
         "Why are you %1?",
-        "Do you enjoy being %1?",
+        "How does being %1 affect you?",
         "What caused you to be %1?"
     };
     addRule("am", "i am *", r3, 3, 0);
@@ -594,6 +602,7 @@ void displayHelp(void) {
     systemSay("#reset   - Forget learned rules");
     systemSay("#teach   - Teach a response for your last message");
     systemSay("#quit    - Exit the program");
+    systemSay("#bye     - Exit the program");
 }
 
 void addHistory(const char *speaker, const char *message) {
@@ -720,6 +729,11 @@ void preprocess(char *str) {
     strcpy(str, temp);
 }
 
+void normalizeCommand(char *str) {
+    trim(str);
+    toLowerCase(str);
+}
+
 int isCommand(const char *input) {
     return input[0] == '#';
 }
@@ -728,7 +742,7 @@ int handleCommand(const char *input) {
     char command[MAX_INPUT];
 
     strcpy(command, input);
-    preprocess(command);
+    normalizeCommand(command);
 
     if (strcmp(command, "#quit") == 0 || strcmp(command, "#bye") == 0) {
         return 1;
