@@ -92,6 +92,7 @@ void trim(char *str);
 void toLowerCase(char *str);
 void removePunctuation(char *str);
 void preprocess(char *str);
+void normalizeCommand(char *str);
 
 int isCommand(const char *input);
 int handleCommand(const char *input);
@@ -594,6 +595,7 @@ void displayHelp(void) {
     systemSay("#reset   - Forget learned rules");
     systemSay("#teach   - Teach a response for your last message");
     systemSay("#quit    - Exit the program");
+    systemSay("#bye     - Exit the program");
 }
 
 void addHistory(const char *speaker, const char *message) {
@@ -720,6 +722,11 @@ void preprocess(char *str) {
     strcpy(str, temp);
 }
 
+void normalizeCommand(char *str) {
+    trim(str);
+    toLowerCase(str);
+}
+
 int isCommand(const char *input) {
     return input[0] == '#';
 }
@@ -728,7 +735,7 @@ int handleCommand(const char *input) {
     char command[MAX_INPUT];
 
     strcpy(command, input);
-    preprocess(command);
+    normalizeCommand(command);
 
     if (strcmp(command, "#quit") == 0 || strcmp(command, "#bye") == 0) {
         return 1;
