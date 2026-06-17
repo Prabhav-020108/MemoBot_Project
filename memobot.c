@@ -111,6 +111,9 @@ void userSay(const char *message);
 void systemSay(const char *message);
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#endif
     char input[MAX_INPUT];
     char processed[MAX_INPUT];
     char captured[MAX_INPUT];
